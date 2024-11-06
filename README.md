@@ -15,7 +15,9 @@ Note: I should be able to improve this in the future. We need the `jekyll serve`
 
 ## Production
 
-### Airtable Webhook
+Deploying to production is done through Cloudflare Pages. To deploy, push to the `main` branch.
+
+### Airtable Webhooks
 
 While the site is static, some of the data comes from Airtable to allow clients to more easily update the site. To do this, we use a webhook to trigger a build when the Airtable data changes. 
 
@@ -37,3 +39,29 @@ graph TD
 2. Set the `CLOUDFLARE_HOOK_ID` variable.
 3. Create a new Airtable webhook that calls the "update" Cloudflare Function.
 4. Create a Cloudflare Worker that hits the "refresh" Cloudflare Function on a schedule.
+
+Use the following commands to create and audit the webhooks:
+
+```sh
+# list webhooks
+source .env | curl "https://api.airtable.com/v0/bases/${AIRTABLE_BASE_ID}/webhooks" -H "Authorization: Bearer ${AIRTABLE_ACCESS_TOKEN}"
+
+# create webhook
+# make sure to update the recordChangeScope to the correct table
+curl -X POST "https://api.airtable.com/v0/bases/${AIRTABLE_BASE_ID}/webhooks" \                                                          
+-H "Authorization: Bearer ${AIRTABLE_ACCESS_TOKEN}" \
+-H "Content-Type: application/json" \
+--data '{
+    "notificationUrl": "https://www.3and4.cc/update",
+    "specification": {
+      "options": {
+        "filters": {
+          "dataTypes": [
+            "tableData"
+          ],
+          "recordChangeScope": "tbl7peLYcr06NRm4R"
+        }
+      }
+    }
+  }'
+```
