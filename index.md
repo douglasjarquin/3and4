@@ -17,14 +17,16 @@ title: "Electronic Music Artist from Miami, FL"
       </div>
       <div id="music" class="pb-16">
         <h1 class="text-white text-center font-bold uppercase text-6xl pb-16">Latest Release</h1>
+        {% for release in site.data.releases %}
         <div class="m-auto max-w-[512px] border-b-4 border-r-4 border-sunset-orange-500">
-          <a href="https://artists.landr.com/692531481672">
+          <a href="{{ release.permalink }}">
             <img
-              src="https://assets.3and4.cc/images/artwork/burden.png"
-              alt="Artwork for the 3&amp;4 Single Burden"
+              src="{{ release.artwork }}"
+              alt="Artwork for the 3&amp;4 {{ release.type }} {{ release.name }}"
             />
           </a>
         </div>
+        {% endfor %}
       </div>
     </div>
   </div>
