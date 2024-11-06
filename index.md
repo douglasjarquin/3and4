@@ -9,7 +9,7 @@ title: "Electronic Music Artist from Miami, FL"
       <div id="dragon" class="h-screen flex items-center justify-center">        
         <a href="/">
           <img
-            src="/assets/images/logo-3and4.svg"
+            src="https://assets.3and4.cc/images/logo-3and4.svg"
             alt="3&amp;4 Logo"
             class="mx-auto w-full"
           />
