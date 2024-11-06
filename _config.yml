@@ -1,0 +1,15 @@
+url: ''
+baseurl: ''
+title: '3&4'
+
+plugins:
+  - jekyll-postcss
+
+postcss:
+  cache: false
+
+exclude:
+  - package.json
+  - postcss.config.js
+  - tailwind.config.js
+  - package-lock.json
