@@ -1,8 +1,9 @@
-// curl -X POST "https://api.cloudflare.com/client/v4/pages/webhooks/deploy_hooks/c1c18ae8-4e24-42c8-9f5f-e56d83ac9f65"
 interface Context {
   env: {
     CLOUDFLARE_HOOK_ID: string
-  }
+    API_TOKEN: string
+  },
+  request: Request
 }
 
 async function triggerCloudflareDeployHook(hookId: string) {
@@ -15,6 +16,13 @@ async function triggerCloudflareDeployHook(hookId: string) {
 }
 
 export async function onRequestGet(context: Context) {
+  const url = new URL(context.request.url);
+  const token = url.searchParams.get('token');
+
+  if (token !== context.env.API_TOKEN) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   await triggerCloudflareDeployHook(context.env.CLOUDFLARE_HOOK_ID)
   // The airtable webhook api requires an empty response body
   // https://airtable.com/developers/web/api/webhooks-overview#webhook-notification-delivery
